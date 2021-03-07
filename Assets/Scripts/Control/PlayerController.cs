@@ -11,8 +11,14 @@ namespace RPG.Control
     {
         private void Update()
         {
+            Move();
+            
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
+        }
+        private void Move()
+        {
+
         }
 
         private bool InteractWithCombat()
