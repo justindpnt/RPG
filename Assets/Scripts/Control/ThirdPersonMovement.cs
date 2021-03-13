@@ -10,7 +10,10 @@ public class ThirdPersonMovement : MonoBehaviour
     public Terrain ground;
 
 
-    public float speed = 6f;
+    public float speed = 1f;
+    public float animationSpeed = 1f;
+    public float verticalSpeed = 0f;
+    public float gravity = 20f;
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
@@ -23,7 +26,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        if (direction.magnitude >= 0.01f) 
+        if (direction.magnitude >= 0.1f) 
         {
             //Vector math to get rotation angle
 
@@ -33,6 +36,14 @@ public class ThirdPersonMovement : MonoBehaviour
 
             //What moves the xz
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+            //Debug.Log(transform.position.y <= .1f);
+
+            //if (transform.position.y <= .1f) verticalSpeed = Terrain.activeTerrain.SampleHeight(transform.position);
+            ////verticalSpeed = Terrain.activeTerrain.SampleHeight(transform.position);
+            //else verticalSpeed -= gravity * Time.deltaTime;
+            ////moveDir.y = verticalSpeed;
+
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
 
             //What move the y (Want to stay grounded)
@@ -40,12 +51,16 @@ public class ThirdPersonMovement : MonoBehaviour
             pos.y = Terrain.activeTerrain.SampleHeight(pos);
             transform.position = pos;
 
-            UpdateAnimator(new Vector3(horizontal, 0f, vertical));
+            //move = transform.InverseTransformDirection(direction)
+
+            UpdateAnimator(moveDir.magnitude);
         }
     }
-    private void UpdateAnimator(Vector3 speed)
+    private void UpdateAnimator(float animationFloat)
     {
-        Debug.Log(speed.magnitude);
-        GetComponent<Animator>().SetFloat("forwardSpeed", speed.magnitude*4);
+        //Debug.Log(speed.magnitude);
+
+        //Debug.Log(animationFloat * animationSpeed);
+        GetComponent<Animator>().SetFloat("forwardSpeed", animationFloat * animationSpeed);
     }
 }
