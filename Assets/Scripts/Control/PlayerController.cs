@@ -10,9 +10,20 @@ namespace RPG.Control
     public class PlayerController : MonoBehaviour
     {
         private void Update()
-        {
+        { 
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
+        }
+
+        private void FixedUpdate()
+        {
+            Move();
+        }
+
+        private void Move()
+        {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
         }
 
         private bool InteractWithCombat()
