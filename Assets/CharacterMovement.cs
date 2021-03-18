@@ -1,0 +1,122 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class CharacterMovement : MonoBehaviour
+{
+    // variable to store character animator component
+    Animator animator;
+
+    // variables to store optimized setter/getter paramter IDs
+    int isWalkingHash;
+    int isRunningHash;
+
+    // variable to store the instance of the PlayerInput
+    PlayerInput input;
+
+    // variables to store input values
+    Vector2 currentMovement;
+    bool movementPressed;
+    bool runPressed;
+    
+    
+    // Awake is called when the script instance is being loaded
+    private void Awake()
+    {
+        input = new PlayerInput();
+
+        input.CharacterControls.Movement.started += ctx =>
+        {
+            Debug.Log(ctx.ReadValue<Vector2>());
+            currentMovement = ctx.ReadValue<Vector2>();
+            movementPressed = currentMovement.x != 0 || currentMovement.y > 0;
+        };
+        input.CharacterControls.Movement.performed += ctx =>
+        {
+            Debug.Log(ctx.ReadValue<Vector2>());
+            currentMovement = ctx.ReadValue<Vector2>();
+            movementPressed = currentMovement.x != 0 || currentMovement.y > 0;
+        };
+        input.CharacterControls.Movement.canceled += ctx =>
+        {
+            Debug.Log(ctx.ReadValue<Vector2>());
+            currentMovement = ctx.ReadValue<Vector2>();
+            movementPressed = currentMovement.x != 0 || currentMovement.y > 0;
+        };
+        input.CharacterControls.Run.performed += ctx => runPressed = ctx.ReadValueAsButton();
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // variable to store cahracter animator component
+        animator = GetComponent<Animator>();
+
+        // variables to store optimized setter/getter paramters IDs
+        isWalkingHash = Animator.StringToHash("isWalking");
+        isRunningHash = Animator.StringToHash("isRunning");
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        handleMovement();
+        handleRotation();
+    }
+
+    void handleRotation()
+    {
+        // Current position of our character
+        Vector3 currentPosition = transform.position;
+
+        // the change in position our chracter should point to
+        Vector3 newPosition = new Vector3(currentMovement.x, 0, currentMovement.y);
+
+        Vector3 positionToLookAt = currentPosition + newPosition;
+
+        transform.LookAt(positionToLookAt);
+    }
+
+
+    void handleMovement()
+    {
+        // get paramter values from animator
+        bool isRunning = animator.GetBool(isRunningHash);
+        bool isWalking = animator.GetBool(isWalkingHash);
+
+        if (movementPressed && !isWalking)
+        {
+            animator.SetBool(isWalkingHash, true);
+        }
+
+        if (!movementPressed && isWalking)
+        {
+            animator.SetBool(isWalkingHash, false);
+        }
+
+        if ((movementPressed && runPressed) && !isRunning)
+        {
+            animator.SetBool(isRunningHash, true);
+        }
+
+        if ((!movementPressed || !runPressed) && isRunning)
+        {
+            animator.SetBool(isRunningHash, false);
+        }
+    }
+
+    void OnEnable()
+    {
+        // enable the chracter controls action map
+        input.CharacterControls.Enable();
+    }
+
+    void OnDisable()
+    {
+        // disable the chracter controls action map
+        input.CharacterControls.Disable();
+    }
+}
