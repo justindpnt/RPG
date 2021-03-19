@@ -19,8 +19,14 @@ public class CharacterMovement : MonoBehaviour
     Vector2 currentMovement;
     bool movementPressed;
     bool runPressed;
-    
-    
+
+    //Pointer to main camera
+    Camera mainCam;
+
+    //Smooth turning variables
+    public float turnSmoothTime = 0.2f;
+    float turnSmoothVelocity;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -58,6 +64,8 @@ public class CharacterMovement : MonoBehaviour
         isWalkingHash = Animator.StringToHash("isWalking");
         isRunningHash = Animator.StringToHash("isRunning");
 
+
+        mainCam = Camera.main;
     }
 
     // Update is called once per frame
@@ -69,6 +77,15 @@ public class CharacterMovement : MonoBehaviour
 
     void handleRotation()
     {
+
+        if((currentMovement.x != 0) && (currentMovement.y != 0))
+        {
+            float targetAngle = Mathf.Atan2(currentMovement.x, currentMovement.y) * Mathf.Rad2Deg + mainCam.transform.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        }
+
+        /* Old code that doesn't support camera movment
         // Current position of our character
         Vector3 currentPosition = transform.position;
 
@@ -78,6 +95,7 @@ public class CharacterMovement : MonoBehaviour
         Vector3 positionToLookAt = currentPosition + newPosition;
 
         transform.LookAt(positionToLookAt);
+        */
     }
 
 
