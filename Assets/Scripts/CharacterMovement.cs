@@ -19,6 +19,7 @@ public class CharacterMovement : MonoBehaviour
     Vector2 currentMovement;
     bool movementPressed;
     bool runPressed;
+    bool jumpPressed;
 
     //Pointer to main camera
     Camera mainCam;
@@ -51,6 +52,7 @@ public class CharacterMovement : MonoBehaviour
             movementPressed = currentMovement.x != 0 || currentMovement.y > 0;
         };
         input.CharacterControls.Run.performed += ctx => runPressed = ctx.ReadValueAsButton();
+        input.CharacterControls.Jump.performed += ctx => jumpPressed = ctx.ReadValueAsButton();
     }
 
 
