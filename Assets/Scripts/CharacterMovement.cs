@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
     // variables to store optimized setter/getter paramter IDs
     int isWalkingHash;
     int isRunningHash;
+    int rollHash;
 
     // variable to store the instance of the PlayerInput
     PlayerInput input;
@@ -34,25 +35,24 @@ public class CharacterMovement : MonoBehaviour
         input = new PlayerInput();
 
         input.CharacterControls.Movement.started += ctx =>
-        {
-            Debug.Log(ctx.ReadValue<Vector2>());
+        {  
             currentMovement = ctx.ReadValue<Vector2>();
             movementPressed = currentMovement.x != 0 || currentMovement.y > 0;
         };
         input.CharacterControls.Movement.performed += ctx =>
         {
-            Debug.Log(ctx.ReadValue<Vector2>());
             currentMovement = ctx.ReadValue<Vector2>();
             movementPressed = currentMovement.x != 0 || currentMovement.y > 0;
         };
         input.CharacterControls.Movement.canceled += ctx =>
         {
-            Debug.Log(ctx.ReadValue<Vector2>());
             currentMovement = ctx.ReadValue<Vector2>();
             movementPressed = currentMovement.x != 0 || currentMovement.y > 0;
         };
         input.CharacterControls.Run.performed += ctx => runPressed = ctx.ReadValueAsButton();
-        input.CharacterControls.Jump.performed += ctx => jumpPressed = ctx.ReadValueAsButton();
+        input.CharacterControls.Jump.performed += ctx => handleRoll();
+        input.CharacterControls.Jump.canceled += ctx => finishRoll();
+
     }
 
 
@@ -65,17 +65,39 @@ public class CharacterMovement : MonoBehaviour
         // variables to store optimized setter/getter paramters IDs
         isWalkingHash = Animator.StringToHash("isWalking");
         isRunningHash = Animator.StringToHash("isRunning");
+        rollHash = Animator.StringToHash("Roll");
 
 
         mainCam = Camera.main;
     }
 
+    void finishRoll()
+    {
+        animator.SetBool(rollHash, false);
+    }
+    
     // Update is called once per frame
     void Update()
     {
         handleMovement();
         handleRotation();
+        //handleRoll();
     }
+
+    void handleRoll()
+    {
+        //Debug.Log(jumpPressed);
+        //if (jumpPressed)
+        //{
+            animator.SetBool(rollHash, true);
+        //}
+        //else
+        //{
+        //    animator.SetBool(rollHash, false);
+        //}
+    }
+
+
 
     void handleRotation()
     {

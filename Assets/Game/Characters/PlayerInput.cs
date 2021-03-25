@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Game/Core/PlayerInput.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Game/Characters/PlayerInput.inputactions'
 
 using System;
 using System.Collections;
@@ -88,7 +88,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8fdf47c5-1035-4a7a-8132-410e8bd4ea8c"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
