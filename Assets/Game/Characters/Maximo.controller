@@ -57,7 +57,8 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: dffa50cfe77e0434bbfa71245b3dd529, type: 3}
+    m_Motion: {fileID: -203655887218126122, guid: 1f7baa861ba2bab468113fd4c3356e07,
+      type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -65,22 +66,22 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: db36e5985f5f85f458ad9785ad0d4f99,
+    m_Motion: {fileID: -203655887218126122, guid: 09dbb5565c8158a4dace407571df57d6,
       type: 3}
     m_Threshold: 1.2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
-    m_DirectBlendParameter: Blend
+    m_DirectBlendParameter: forwardSpeed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: d3102368392c44e4ca35ca370db8ccdf,
+    m_Motion: {fileID: -203655887218126122, guid: cd6814965ff9f7c4dbdcd7f9b38593b6,
       type: 3}
     m_Threshold: 3.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
-    m_DirectBlendParameter: forwardSpeed
+    m_DirectBlendParameter: Blend
     m_Mirror: 0
   m_BlendParameter: forwardSpeed
   m_BlendParameterY: Blend
@@ -95,7 +96,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New
+  m_Name: Maximo
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: forwardSpeed
